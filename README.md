@@ -1,13 +1,20 @@
 # CPVP_algorithm
-**💡 summary**
+## 💡 summary
 <ul><li><code style="color : Gray">CPVP(critical points visiting probabilities)는 위치데이터 기반 경로 유사도 측정 알고리즘입니다.</code></li><li><code style="color : Gray">코드는 JavaScript와 Python으로 작성됐습니다.</code></li><li><code style="color : Gray">예시코드는 Python으로 작성됐습니다.</code></li></ul>
-
+<br>   
+<br> 
 <p align="center">
 <img width="457" alt="image" src="https://github.com/user-attachments/assets/506c15d4-ecf6-4e33-87b0-4bbc334a4dcc">
 <p\>
+<p align="center">
+Fig. flow-chart of CPVP algorithm
+<p\>
+    
+</p> 
 <br>   
 <br>   
-
+  
+    
 ## Code
 
 ### 0. Main
