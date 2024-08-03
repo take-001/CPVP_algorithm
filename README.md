@@ -10,7 +10,7 @@
 
 ## Code
 
-### 0. main
+### 0. Main
 * 크리티컬 포인트 방문 확률을 최종적으로 계산한다.
 
 ```python
@@ -120,7 +120,8 @@ def agg_heatmap(squarecenter,P):
 ```
 
 ---
-### 6. calculate CPVP score
+
+### 6. Calculate CPVP point
 * 크리티컬 포인트 방문 확률을 계산한다.
 * grid 를 $G$, critical point의 인덱스를 $(i,j)$라 할 때, $CPVP\ =\ G_{ij}/\max{\{\ G\}}$ 
 
