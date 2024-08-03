@@ -5,9 +5,11 @@
 <p align="center">
 <img width="457" alt="image" src="https://github.com/user-attachments/assets/506c15d4-ecf6-4e33-87b0-4bbc334a4dcc">
 <p\>
-\hline
+<br>   
+<br>   
 
-### Grid indexing_1
+
+### 1. Grid indexing_1
 * Grid는 1차원 리스트로 저장된다.
 * 1차원 리스트이 인덱스를 2차원 행렬로 변환하여, 실제 그리드가 2차원 상에서 어느 위치에 있을지를 반환한다.
 
@@ -19,8 +21,8 @@ def n_to_coords(num,n=31):
 
     return i,j
 ```
-\hline
-### Grid indexing_2
+---
+### 2. Grid indexing_2
 * 특정 좌표가 속해 있는 그리드 인덱스를 반환합니다.
 * 인덱스는 1차원 값입니다. 이 1차원 값은 Grid indexing_2 함수에 의해 실제 2차원 인덱스로 변환됩니다.
 
@@ -31,8 +33,8 @@ def fit_point_to_square(point,sofsquare):
         if point[0] >= sofsquare[i][0][0] and point[0] <= sofsquare[i][2][0] and  point[1] >= sofsquare[i][0][1] and point[1] <= sofsquare[i][2][1]:
             return i
 ```
-\hline
-### Grid generation
+---
+### 3. Grid generation
 * Critical point를 중심으로 N X N 크기의 그리드를 생성합니다.
 * 그리드 한 칸의 규격은 750X750 m^2 입니다.
 
