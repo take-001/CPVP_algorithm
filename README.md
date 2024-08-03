@@ -9,6 +9,18 @@
 <br>   
 
 ## Code
+
+### 0. main
+* 크리티컬 포인트 방문 확률을 최종적으로 계산한다.
+
+```python
+def main(criticalpoint, P):
+    a,b=agg_heatmap(criticalpoint, P)
+    c= CPVP_value(criticalpoint,a,b)
+    return c
+```
+---
+
 ### 1. Grid indexing_1
 * Grid는 1차원 리스트로 저장된다.
 * 1차원 리스트이 인덱스를 2차원 행렬로 변환하여, 실제 그리드가 2차원 상에서 어느 위치에 있을지를 반환한다.
@@ -56,4 +68,74 @@ def generation_square(squarecenter,n=31):
             set_of_unitsqaure.append(temp)
     return set_of_unitsqaure
 ```
+---
+### 4. Generate heatmaps
+* GPS 좌표 별로 히트맵을 만든다.
+* 기준점은 크리티컬포인트이다.
+* 각 그리드에는 히트맵 스코어가 입력되며, 히트맵 스코어는 GPS 좌표와 멀어질수록 작은 값을 지닌다.
+* 이차원 배열 형태의 히트맵 스코어를 반환한다.
 
+```python
+def generate_heatmap_by_point(point,sofsquare):
+    dummy=[[0 for i in range(int(len(sofsquare)**(1/2)))]for j in range(int(len(sofsquare)**(1/2)))]
+    #dummy = [[0]*int(math.sqrt(len(sofsquare)))]*int(math.sqrt(len(sofsquare)))
+    q=fit_point_to_square(point,sofsquare)
+    if q:
+        i_,j_=  n_to_coords(q,int(math.sqrt(len(sofsquare))))
+        emptiness=True
+        x=0
+        while emptiness:
+            for i in range(i_-x,i_+x+1):
+                for j in range(j_-x,j_+x+1):
+                    if i >=0 and i< len(dummy) and  j >=0 and j< len(dummy):
+                        dummy[i][j]=max(dummy[i][j],100/(math.log(x+1)+0.5))
+                        #dummy[i][j]+=100/((x+1)*(x+1))
+            x+=1
+        
+            can=[]
+            for i in dummy:
+                for j in i:
+                    if j == 0:
+                        can.append(j)
+            if len(can)==0:
+                emptiness = False
+    return dummy
+```
+
+---
+### 5. agrregate heatmaps
+* 만들어진 히트맵을 하나의히트맵으로 합친다.
+* 합쳐진 히트맵의 각 그리드에는 동일한 위치에 저장됐던 각 히트맵들의 스코어를 sum한 값이 입력된다.
+
+```python
+def agg_heatmap(squarecenter,P):
+    a= generation_square(squarecenter)
+    can=[[0 for i in range(int(len(a)**(1/2)))]for j in range(int(len(a)**(1/2)))]
+    #can=np.zeros([int(math.sqrt(len(a))),int(math.sqrt(len(a)))])
+    for p in P:
+        t=generate_heatmap_by_point(p,a)
+        if len(t)>0:
+            can=[[can[i][j]+t[i][j] for j in range(int(len(a)**(1/2)))]for i in range(int(len(a)**(1/2)))]
+    return can,a
+```
+
+---
+### 6. calculate CPVP score
+* 크리티컬 포인트 방문 확률을 계산한다.
+* grid 를 $G$, critical point의 인덱스를 $(i,j)$라 할 때, $CPVP\ =\ G_{ij}/\max{\{\ G\}}$ 
+
+```python
+def CPVP_value(critical_point,can,square):
+    
+    a = can
+    b= square #a=heatmap score, b= map
+    c=critical_point
+    f,p=n_to_coords(fit_point_to_square(c,b))
+    m=np.max(a)
+    if m == 0:
+        val=0
+    if m!=0:
+        val=a[f][p]/m
+    return val
+
+```
